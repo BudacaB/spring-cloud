@@ -30,6 +30,21 @@
 - how do I troubleshoot problems?
 - isn't a monolith just simpler?
 
+#### The role of configuration in Microservices
+
+- removing 'settings' from compiled code
+- change runtime behaviors
+- enforce consistency across elastic services
+- cache values to reduce load on databases
+
+#### Problems with the status quo
+
+- local configuration files fall out of sync
+- no history of changes with env variables
+- configuration changes require restart
+- challenges with sensitive info
+- inconsistent usage across teams
+
 ### Microservices scaffolding with Spring Cloud
 
 - released March 2015
@@ -53,3 +68,51 @@
 - Spring Cloud for AWS - Exposes core AWS service to Spring Developer
 - Spring Cloud Spinnaker - Multi-cloud deployment
 - Spring Cloud Contract - Stubs for service contracts
+
+### Spring Boot
+
+- offers opinionated runtime for Spring
+    - convention, not configuration (annotations, not xml config files)
+- 'opinions' can be overridden
+- handles boilerplate setup
+- simple dependency management
+- embeds app server in executable JAR
+- built in endpoints for health metrics
+
+### Spring Cloud Config
+
+- HTTP access to git or file based configurations
+- you end up with a configuration server that uses a git or file based backend and it servers out configuration values to your Java Spring app or anything that can consume it over HTTP
+
+#### Creating a Config Server
+
+- choose a config source
+  - local files
+      - points to classpath or file system
+      - multiple search locations possible
+      - no audit trail
+      - supports labelling
+      - support for placeholders in URI
+      - relies on 'native' profile - spring profile that indicates looking at local files
+      - dev / test only, unless set up in reliable, shared fashion
+  - git-based repository
+      - points to git repo
+      - multiple search locations possible
+      - full change history
+      - support labelling
+      - support for placeholders in URI
+      - multiple profiles possible
+      - local git for dev / test highly available file system or service for production
+- add config files
+  - native support for YML, properties file
+  - can serve out any text file
+  - file name contains app, optionally profile
+  - nested folders supported
+  - all matching files returned
+- build the spring project (the config server itself is a spring boot app)
+  - generate spring scaffolding
+  - see POM dependency on spring-cloud-config-server ad spring-boot-started-actuator
+  - add $EnableConfigServer annotation to class
+  - create app properties (or YAML) with server port, app name, and profile
+- secure the configurations
+
