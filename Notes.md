@@ -1,8 +1,10 @@
 ### Microservices
 
+Q: What are microservices?
 'Loosely coupled service oriented architecture with bounded context'
 (Adrian Cockcroft, Battery Ventures)
 
+Q: What problems do they solve?
 - desire for faster changes
 - need for greater availability
 - motivation for fine-grained scaling
@@ -10,6 +12,7 @@
 
 #### Core characteristics of microservices
 
+Q: What are their core characteristics?
 - components exposed as services
 - tied to a specific domain
 - loosely coupled
@@ -32,6 +35,7 @@
 
 #### The role of configuration in Microservices
 
+Q: What is the role of configuration in microservices?
 - removing 'settings' from compiled code
 - change runtime behaviors
 - enforce consistency across elastic services
@@ -39,6 +43,7 @@
 
 #### Problems with the status quo
 
+Q: What are the problems with the status quo?
 - local configuration files fall out of sync
 - no history of changes with env variables
 - configuration changes require restart
@@ -71,6 +76,7 @@
 
 ### Spring Boot
 
+Q: What are the main features of Spring Boot?
 - offers opinionated runtime for Spring
     - convention, not configuration (annotations, not xml config files)
 - 'opinions' can be overridden
@@ -81,11 +87,13 @@
 
 ### Spring Cloud Config
 
+Q: What is the Spring Cloud config?
 - HTTP access to git or file based configurations
 - you end up with a configuration server that uses a git or file based backend and it servers out configuration values to your Java Spring app or anything that can consume it over HTTP
 
 #### Creating a Config Server
 
+Q: How do you create a Config Server?
 - choose a config source
   - local files
       - points to classpath or file system
