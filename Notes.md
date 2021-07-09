@@ -124,3 +124,42 @@ Q: How do you create a Config Server?
   - create app properties (or YAML) with server port, app name, and profile
 - secure the configurations
 
+#### YAML file example
+
+```aidl
+spring:
+    cloud:
+        config:
+            server:
+                git:
+                    uri: https:\/\/github.com/watolls/rates // point to git location
+                    searchPaths: 'station*' // pattern to search sub directories
+                    repos: // point to alternate repos
+                        prod:
+                            patter: '*/prod' // pattern to go to alternate repo
+                            uri: https:\/\/github.com/watolls/rates-prod
+```
+
+E.g.
+
+```aidl
+https:\/\/github.com/wa-tolls/rates/{application}/{profile}[/{label}]
+        <branch: master>           - required   - required - optional 
+        
+- application.properties
+- station1
+    - s1rates-dev.properties
+    - s1rates-qa.properties
+    - s1rates.properties
+- station2
+    - s2rates-dev.properties
+    - s2rates.properties   
+    
+/s1rates/default - application.properties & s1rates.properties
+/s1rates/dev - application.properties & s1rates-dev.properties & s1rates.properties
+/s2rates/qa - application.properties & s2rates.properties
+/s3rates/default - application.properties
+```
+
+
+
