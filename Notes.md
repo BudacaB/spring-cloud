@@ -160,6 +160,13 @@ https:\/\/github.com/wa-tolls/rates/{application}/{profile}[/{label}]
 /s2rates/qa - application.properties & s2rates.properties
 /s3rates/default - application.properties
 ```
+---
 
+Q: How are configurations consumed?
+
+- Spring apps use Config Servers as a property source
+- Loads values based on app name, Spring profile, label
+- Annotate code with @Value attribute
+- Can consume from non-Spring apps via URL
 
 
