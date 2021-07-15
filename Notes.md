@@ -169,4 +169,12 @@ Q: How are configurations consumed?
 - Annotate code with @Value attribute
 - Can consume from non-Spring apps via URL
 
+Q: How can you apply access security to configurations?
+
+- integrated security via Spring Security
+- default HTTP Basic, but other options like OAuth2
+- configured in properties, YAML files
+- could be unique per profile
+- look to also secure with network security, API gateways
+
 
