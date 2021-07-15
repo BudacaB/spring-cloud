@@ -177,4 +177,11 @@ Q: How can you apply access security to configurations?
 - could be unique per profile
 - look to also secure with network security, API gateways
 
+Q: How to encrypt / decrypt configurations?
+
+- property values not stored in plain text
+- symmetric or asymmetric options
+- server offers encrypt and decrypt endpoints
+- can decrypt on server or in the client
+
 
