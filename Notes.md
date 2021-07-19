@@ -184,4 +184,12 @@ Q: How to encrypt / decrypt configurations?
 - server offers encrypt and decrypt endpoints
 - can decrypt on server or in the client
 
+Q: What are advanced settings and property refresh?
+
+- configure for 'fail fast' to fail service if it cannot connect to Config Server
+- can add client retry if Config Server occasionally unavailable
+- refresh clients individually or in bulk
+  - refresh endpoint - call it for service and refresh config without restarting
+  - use Spring Cloud bus and broadcast an event and then every service listens on that and refreshes itself (better for multiple services using the Config Server)
+- values are cached in the bean
 
