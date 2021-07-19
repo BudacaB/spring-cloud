@@ -193,3 +193,53 @@ Q: What are advanced settings and property refresh?
   - use Spring Cloud bus and broadcast an event and then every service listens on that and refreshes itself (better for multiple services using the Config Server)
 - values are cached in the bean
 
+### Asynchronous activities
+
+Q: What is the role of asynchronous processing in microservices?
+
+- reduces dependencies between services - messaging
+- support low latency, high throughput (fewer blocking calls)
+- facilitate event-driven computing
+
+Q: What are some problems with the status quo?
+
+- consuming resources even when services aren't in use
+- services baked into monolithic deployments
+- challenges scaling services on demand
+- difficulty tracing service calls
+
+Q: What is 'serverless' computing?
+
+- deploy 'function' instead of 'application'
+- run code without knowledge of infra
+- elastic, automatic horizontal scaling
+- start fast, run short
+
+Q: What is a Spring Cloud Task?
+
+- short-lived, asynchronous microservices (more complex than for example a batch job for which you write a script)
+  - machinery to run tasks - annotations etc.
+  - storage of the result of a task - audit trail
+  - integrate with other runtimes
+
+Q: How does this fit into the Spring ecosystem?
+
+- Spring Boot apps
+- Spring Batch
+- Spring Cloud Stream (e.g. a listener on one of these streams can kick off a task)
+- Spring Cloud Data Flow (e.g. when orchestrating data microservices you can use a task as one of the steps in that data flow)
+
+Q: How do you create a task?
+
+- add classpath dependencies to POM - adding references to Spring Cloud Starter
+- annotate the class with @EnableTask
+- add business logic to run the task - almost just a 'function'
+- deploy to the Maven repository - make it more generally available
+
+Q: How does a Task's logic work?
+
+- Spring (Boot) app with access to beans
+- task is stateless - pull from some other service, do its logic, save any outbound state and then shutdown
+- bootstrap with a Runner - command line runner or application runner - can use multiple runners and the task isn't done until all the runners are complete
+- can subscribe to lifecycle events - can subscribe to them
+
