@@ -243,3 +243,33 @@ Q: How does a Task's logic work?
 - bootstrap with a Runner - command line runner or application runner - can use multiple runners and the task isn't done until all the runners are complete
 - can subscribe to lifecycle events - can subscribe to them
 
+Q: What are some task result storage options?
+
+- H2
+- HSQLDB
+- MySQL
+- Oracle
+- PostgreSQL
+- SQL Server
+
+Q: What's an example of repository entity relationship diagram?
+
+```aidl
+TASK_EXECUTION table
+[key] TASK_EXECUTION_ID
+START_TIME
+END_TIME
+TASK_NAME
+EXIT_CODE
+EXIT_MESSAGE
+LAST_UPDATED
+
+TASK_EXECUTION_PARAMS
+[fkey] TASK_EXECUTION_ID
+TASK_PARAM
+
+TASK_SEQ
+ID
+UNIQUE_KEY
+```
+
