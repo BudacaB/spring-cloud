@@ -247,7 +247,7 @@ Q: What are some task result storage options?
 
 - H2
 - HSQLDB
-- MySQL
+- MySQL - just needs a tasklogs database and connection info in the project
 - Oracle
 - PostgreSQL
 - SQL Server
@@ -272,4 +272,18 @@ TASK_SEQ
 ID
 UNIQUE_KEY
 ```
+
+Q: What are some options for invoking tasks?
+
+- run jar as Cron (scheduled) job
+- include as part of data pipeline
+- subscribe to event bus
+- directly invoked via a custom Launcher - start from within another process
+
+
+Q: How can a task be invoked via HTTP and Spring Cloud Stream?
+
+User -> (Make http call) HTTP Listener -> (Create TaskLaunchRequest) HTTP Listener -> (Publish Message) Spring Cloud Stream -> (Task routed) Event Sink -> (Object requested) Maven Repo -> (Object returned) Event Sink -> (Task launched) Task
+
+- (Spring Cloud Stream can sit on top of Redis, RabbitMQ, Kafka etc.)
 
