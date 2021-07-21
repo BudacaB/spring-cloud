@@ -1,10 +1,10 @@
-package com.demo.springcloud.m3.task;
+package demospringcloudm3tasksink;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoSpringcloudM3TaskApplicationTests {
+class DemoSpringcloudM3TasksinkApplicationTests {
 
 	@Test
 	void contextLoads() {
