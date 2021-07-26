@@ -287,3 +287,67 @@ User -> (Make http call) HTTP Listener -> (Create TaskLaunchRequest) HTTP Listen
 
 - (Spring Cloud Stream can sit on top of Redis, RabbitMQ, Kafka etc.)
 
+### Securing Microservices with a Declarative Model
+
+Q: What is the role of Security in Microservices?
+
+- user authentication / authorization - ideally each microservice isn't doing its own authentication but authorization
+    - manage credentials and accesses
+- single sign-on - chaining a lot of services together without authentication on every request
+- data security - in transit or at rest
+  - both data going in / out but also configurations
+  - interoperability - authentication / authorization schemes should work across platforms
+  
+Q: What are some problems with the status quo?
+
+- credentials embedded in applications - traffic comes into a monolith through a load balancer - credentials closely coupled with the app on a high-trust level
+- unnecessary permissions
+- differentiating users and machines
+- not optimized for diverse clients
+- aim: low-trust stateless servers env
+
+Q: What are Spring (Cloud) Security / Config and OAuth 2.0?
+
+- service authorization powered by OAuth 2.0
+- single sign-on with OAuth 2.0 and OpenID Connect
+
+Q: What is OAuth 2.0?
+
+- protocol for conveying authorization - by use of a token
+- provides authorization flow for various clients
+- obtain limited access to user accounts - access / credentials can expire - short-lived
+- separates idea of user and client - as a user I allow the client to do something for me
+- access token carries more than identity - able to contain more metadata
+- NOT an authentication scheme
+- authorization framework that lets apps attain limited access to a user's account for a service
+
+Q: What are the actors in an OAuth 2.0 scenario?
+
+- resource owner - entity that grants access to a resource - usually you
+- resource server - server hosting the protected resource - able to process requests that take a token in and authorize it
+- client - app making protected resource requests on behalf of resource owner
+- authorization server - server issuing access tokens to clients - after the resource owner has been successfully authenticated
+
+Q: What are some OAuth 2.0 terms?
+
+- access token - credentials used to access a protected resource - typically a random string injected in the headers of a web service request - contains scope a validity duration
+- refresh token - renew the access token when it's expired
+- scope - permissions - what are you able to do
+- client ID and secret - when you register you app with an OAuth 2.0 provider you get these back - client credentials
+- OpenID Connect - authentication protocol based on OAuth 2.0 - lets devs authenticate their users across website, apps etc. without having to actually manage the password
+  - take care of some of the authentication - uses standard json web tokens - JWT
+
+Q: How does Spring support OAuth 2.0?
+
+- code annotations - point the user to an authorization server
+  - saying this service is playing in an OAuth scenarion - who doesn't send a token should be redirected
+- token storage options - not having a single point of failure for validating session tokens
+- OAuth 2.0 endpoints - endpoints taken care of by Spring Boot and Spring Cloud Security
+  - authorize endpoint 
+  - token endpoint
+  - confirming access endpoint
+  - check token endpoint for the resource server to decode the access tokens
+  - error endpoints
+  - token key endpoints for exposing the public key in a JWT scenario
+- numerous extensibility points
+
