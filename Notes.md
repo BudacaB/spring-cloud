@@ -351,3 +351,29 @@ Q: How does Spring support OAuth 2.0?
   - token key endpoints for exposing the public key in a JWT scenario
 - numerous extensibility points
 
+Q: What is the abstract OAuth flow?
+
+Client -> (Authorization Request) Resource Owner -> (Authorization Grant) Client -> (Authorization Grant) Authorization Server -> (Access Token) Client -> (Access Token) Resource Server -> (Protected Resource) Client
+
+- The client never sees the user's credentials, it gets a grant, and a token back from the Authorization Server
+
+- Types of grants:
+  - authorization code
+  - implicit resource owner 
+  - password credential
+  - client credential
+
+Q: What is the flow for OAuth 2.0 grant type Authorization Code?
+
+- Actors:
+  - Resource Owner (user)
+  - User-Agent (Web Browser)
+  - Client (Application)
+  - AuthZ Server
+
+- optimized to get access tokens or refresh tokens for confidential clients
+- most common for server side apps
+- redirection based flow - the client redirects the person the asks for feedback
+- client needs to comm with the user - through a web-browser typically - wouldn't work as a 'headless' operation
+
+Client -> (User Authorization Request) AuthZ Server -> (User Authorizez App) User-Agent / Resource owner -> (Authorization Code Grant) AuthZ Server / Client -> (Access Token Request) AuthZ Server -> (Access Token Grant) Client
