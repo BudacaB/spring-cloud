@@ -377,3 +377,10 @@ Q: What is the flow for OAuth 2.0 grant type Authorization Code?
 - client needs to comm with the user - through a web-browser typically - wouldn't work as a 'headless' operation
 
 Client -> (User Authorization Request) AuthZ Server -> (User Authorizez App) User-Agent / Resource owner -> (Authorization Code Grant) AuthZ Server / Client -> (Access Token Request) AuthZ Server -> (Access Token Grant) Client
+
+Q: How do you create a Resource Server and Routing Tokens to Downstream Services?
+
+- use @EnableResourceServer annotation
+- can combine AuthZ and Resource Servers
+- user-info-uri and token-info-uri properties - if the AuthZ and Resource server are not together to know how to decode the tokens, you need to set these properties so the Resource Server will know how to look up the Token - "here's a token, go validate this thing for me"
+- OAuth2RestTemplate bean - web service / http call out of a Spring Boot app - to fetch user details for the auth and inject into headers
