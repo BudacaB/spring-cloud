@@ -384,3 +384,24 @@ Q: How do you create a Resource Server and Routing Tokens to Downstream Services
 - can combine AuthZ and Resource Servers
 - user-info-uri and token-info-uri properties - if the AuthZ and Resource server are not together to know how to decode the tokens, you need to set these properties so the Resource Server will know how to look up the Token - "here's a token, go validate this thing for me"
 - OAuth2RestTemplate bean - web service / http call out of a Spring Boot app - to fetch user details for the auth and inject into headers
+
+Q: How does OAuth 2.0 Grant Type: Resource Owner Password Credentials work?
+
+- with the Password Grant the user does provide their service credentials user/pass directly to the application
+- the application then uses those credentials to go get an access token from the service
+- this is not an ideal flow
+- Resource Owner / User -> (Password credentials) Client / Application -> (Password credentials) AuthZ Server -> (Access token) Client / Application to inject in headers
+  - less redirection - where you have only a service calling a service and no way to redirect the service caller to an UI to approve the request for their credentials (headless operation)
+
+Q: How do you create a custom Authorization Server?
+
+- Lit up with @EnableAuthorizationServer
+  - offers a bunch of endoints
+    - /authorize - actual auth endpoint
+    - /token - get token
+    - /confirmaccess - user posts their approval for the grant
+    - /error - renders errors
+    - /checktoken - used by the resource server to decode the access token
+    - /tokenkey - exposes the public key for token verification
+- property settings drive behavior - client id, client secret etc.
+- secured with Basic Authentication - credentials for basic auth are the actual client id and secret which you can define - unlike the usual Spring Security credentials with 'user' and a random password
