@@ -1,7 +1,11 @@
 package demospringcloudm4secureservice.demospringcloudm4secureservice;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +20,16 @@ public class DemoSpringcloudM4SecureserviceApplication {
 		SpringApplication.run(DemoSpringcloudM4SecureserviceApplication.class, args);
 	}
 
+	@Autowired
+	private ResourceServerProperties sso;
+
+	@Bean
+	public ResourceServerTokenServices myUserInfoTokenServices() {
+		return new CustomUserInfoTokenService(sso.getUserInfoUri(), sso.getClientID());
+	}
+
 	@RequestMapping("/tolldata")
+	@PreAuthorize("#oauth2.hasScope('toll_read') and hasAuthority('ROLE_OPERATOR')")
 	public ArrayList<TollUsage> getTollData() {
 
 		TollUsage instance1 = new TollUsage("200", "station150", "B65GT1W", "2016-09-30T06:31:22");

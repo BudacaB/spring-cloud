@@ -405,3 +405,34 @@ Q: How do you create a custom Authorization Server?
     - /tokenkey - exposes the public key for token verification
 - property settings drive behavior - client id, client secret etc.
 - secured with Basic Authentication - credentials for basic auth are the actual client id and secret which you can define - unlike the usual Spring Security credentials with 'user' and a random password
+
+Q: How does OAuth2 Grant Type: Client Credentials work?
+
+- Client is itself the resource owner / there is no authorization to obtain from the end user
+- Providing the client id and client secret - enough to get back a simple token
+
+Client -> (Client authentication) Authorization Server -> (Access token) Client
+
+Q: How do you add Access Rules?
+
+- can method be called?
+- check OAuth2 scope
+- check user role
+
+```aidl
+@PreAuthorize("#oauth2.hasScope('READ') and hasAuthority('ROLE_Admin')")
+@RequestMapping("/")
+public String secureCall() {
+    return "success!";
+}
+```
+
+Q: What are advanced token options?
+
+- JdbcTokenStore for scaling AuthZ servers - tokens stored in a persistent database (vs. in-memory)
+- token extensibility via TokenEnhancers
+- OpenID Connect for authentication and JWTs for encrypted tokens
+  - OpenID connect is an overlay that uses the flows of OAuth2
+  - bearer token is the heart of OAuth2
+  - token in a JWT has a body, a header, a footer and can be encrypted and have digital signatures attached
+  - OpenID uses JWT for token and user identity
