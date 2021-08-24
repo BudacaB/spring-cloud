@@ -436,3 +436,83 @@ Q: What are advanced token options?
   - bearer token is the heart of OAuth2
   - token in a JWT has a body, a header, a footer and can be encrypted and have digital signatures attached
   - OpenID uses JWT for token and user identity
+
+### Chasing down performance issues using distributed tracing
+
+Q: What is the role of Tracing in Microservices?
+
+- locate misbehaving components
+- observe end-to-end latency
+- understand actual, not specified, behavior
+
+Q: What are the problems with the Status Quo?
+
+- instrumenting all comm paths
+  - traffic isn't going over only HTTP - how do you capture the performance info for traffic through the message bus, or as it goes through proxies?
+- collecting logs across components, threads
+  - distributed logging is complex, doing async, multi-threaded, multi-server, multi-datacenter services and instrumenting all that in a that's actually thread safe and performant is a nightmare
+  - or how about extending that so a developer can attach their own events to that automatic instrumentation
+- correlating and querying logs
+- seeing the big pic / graph
+
+Q: What is Spring Cloud Sleuth?
+
+- automatic instrumentation of comm channels
+- terms:
+  - span - individual operation that happened, a unit of work - it has timestamped events attached to it (client sent, server received, tags, hey-value info etc.) - it can start and stop i.e. it has a beginning and an end
+  - trace - is an e2e latency graph - made up of spans - puts spans into context
+  - annotation - timestamped events
+    - client sent
+    - server received (subtract 'client sent' and you get the network latency)
+    - server sent (subtract the 'server received' and you get the processing time of the operation)
+    - client received - end of the span - subtract 'client sent' and you get the whole time it took to get the response
+  - tracer - runs inside the production apps and creates these spans - it's a must to have a high performance tracer that doesn't slow down the app
+
+Q: What is the anatomy of a trace?
+
+1. Request to Service 1 - no trace ID , no span ID
+   1.1 Span ID and Trace ID get assigned - Trace ID = X ; Span ID = A
+2. Request from Service 1 to Service 2
+   2.1 Trace ID = X ; Span ID = B ; Client Sent annotation
+   2.2 Trace ID = X ; Span ID = B ; Server Received annotation
+   2.3 Trace ID = X ; Span ID = C - for the operation (inbound)
+3. Request from Service 2 to Service 3
+   3.1 Trace ID = X ; Span ID = D ; Client Sent annotation
+   3.2 Trace ID = X ; Span ID = D ; Server Received annotation
+   3.3 Trace ID = X ; Span ID = E - for the operation (inbound)
+4. Response from Service 3 to Service 2
+   4.1 Trace ID = X ; Span ID = E - for the operation (outbound)
+   4.2 Trace ID = X ; Span ID = D ; Server Sent annotation
+   4.3 Trace ID = X ; Span ID = D ; Client Received annotation
+5. Request from Service 2 to Service 4
+   5.1 Trace ID = X ; Span ID = F ; Client Sent annotation
+   5.2 Trace ID = X ; Span ID = F ; Server Received annotation
+   5.3 Trace ID = X ; Span ID = G - for the operation (inbound)
+6. Response from Service 4 to Service 2
+   6.1 Trace ID = X ; Span ID = G - for the operation (outbound)
+   6.2 Trace ID = X ; Span ID = F ; Server Sent annotation 
+   6.3 Trace ID = X ; Span ID = F ; Client Received annotation
+7. Response from Service 2 to Service 1
+   7.1 Trace ID = X ; Span ID = C - for the operation (outbound)
+   7.2 Trace ID = X ; Span ID = B ; Server Sent annotation
+   7.3 Trace ID = X ; Span ID = B ; Client Received annotation
+8. Response from Service 1
+   8.1 Trace ID = X and Span ID = A - now finished
+
+Q: What is Automatically Instrumented and how to add Sleuth to a project?
+
+- one of the most powerful things about Sleuth is how easy it is to have all the core interaction patterns instrumented automatically
+- runnable / callable operations
+- Spring Cloud Hystrix or Zuul - some of those components for circuit breaker Hystrix, some of the components for the gateway Zuul - are taken care of automatically
+- RxJava
+- Sync / Async RestTemplate
+- Spring Integration - pub / sub events
+- @Async or @Scheduled operations - trace info passed between threads
+- adding Sleuth to a project:
+
+```aidl
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-sleuth</artifactId>
+</dependency>
+```
