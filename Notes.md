@@ -516,3 +516,40 @@ Q: What is Automatically Instrumented and how to add Sleuth to a project?
     <artifactId>spring-cloud-starter-sleuth</artifactId>
 </dependency>
 ```
+
+Q: How do you visualize latency with Zipkin?
+
+- created by Twitter, OpenZipkin is the public fork
+- collects timing data
+  - collect, process and present data from tracers coming from Sleuth
+  - putting the tracers into a tree for retrieval
+- shows service dependencies
+- visualize latency for spans in a trace
+- many integrations, besides Spring
+- add Sleuth with Zipkin over HTTP
+  - provides a Rest API for clients to talk to
+
+```aidl
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-zipkin</artifactId>
+</dependency>
+```
+
+- or add Sleuth with Zipkin over Spring Cloud Stream - publish messages to the Zipkin Server - using RabbitMQ or Apache Kafka
+
+```aidl
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-sleuth-stream</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-sleuth</artifactId>
+</dependency>
+<!- an example for RabbitMQ -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+</dependency>
+```
