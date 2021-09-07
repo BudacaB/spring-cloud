@@ -553,3 +553,22 @@ Q: How do you visualize latency with Zipkin?
     <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
 </dependency>
 ```
+
+Q: How do you visualize and query traces in Zipkin?
+
+- view dependencies - which service call which service
+- find a trace and view details
+- perform annotations query - search for specific requests or annotations
+- look for durations
+
+Q: How do you work with sampling rates?
+
+- Sleuth exports 10% of spans by default - can be changed with e.g. spring.sleuth.sampler.percentra=1.0
+- custom samplers give fine-grained control
+
+Q: What are the options when working with spans?
+
+- create new spans
+- continue existing spans
+- associate with explicit parent
+- add tags, events to span
