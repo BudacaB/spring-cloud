@@ -37,3 +37,58 @@ Q: What are some useful Spring Cloud projects useful for distributed services?
 - Spring Cloud Zuul - API gateway for routing and traffic logic - good flexibility for version changes or different client types
 - Spring Cloud Stream - abstract out some of the core messaging engines e.g. Kafka, RabbitMQ etc. - makes it easier for code to comm with the messaging backend
 - Spring Cloud Data Flow - data processing pipeline - connecting a set of Spring Boot apps / Spring Cloud Stream apps and task - application integration
+
+### Locating Services at Runtime using Service Discovery
+
+Q: What is the role of Service Discovery in Microservices?
+- recognize the dynamic environment - service have to advertise their appearance and disappearance - not necessarily the same hosts everytime
+  - find instances of another service based on a sort of advertised metadata - maybe some sort of geo location criteria
+  - it's also important that Service Discovery doesn't become a new single point of failure
+- have a live view of healthy services
+- avoid hard-coded references to service location
+- centralized list of available services
+
+Q: What are some problems with the Status Quo?
+- outdated configuration management DBs
+- simplistic HTTP 200 health checks
+- limited load balancing for middle-tier
+- DNS is insufficient for microservices
+- registries can be single points of failure
+
+Q: What is Spring Cloud Eureka?
+- registry that acts as a phone-book for services
+- no database just a live look at the health of individual systems
+- AP system - availability & partition tolerance (vs consistency of full CAP theorem)
+  - sacrifices consistency, it prioritizes availability and partition tolerance
+- first released by Netflix OSS team in 2012
+- used for middle-tier load balancing
+- integrated into many other Netflix projects
+
+Q: What are the components of a Eureka environment?
+- Eureka server / Dashboard
+  - registry - everybody talks to it to register their availability
+  - standalone app - manages all the service instance info, provides an API to register an un-register and query data about instances
+  - has the capability to propagate its registry info to other servers and clients
+  - no database, just live info
+  - zone aware - zone info, regional info come into play
+  - can have replication with other Eureka servers for HA purposes
+- Service A Instance / Eureka Client
+  - for registering the availability of that service and even consuming that to get a copy of the registry locally
+  - it keeps alive a connection with a server and caches discovering info
+  - sends a heartbeat
+  - these services register themselves, they get a copy of the registry and they're also responsible for sending the heartbeat
+- Service B Instance / Eureka Client
+  - same as above
+  - can make service calls with Service A once the registry is available (using client-side load balancing)
+
+Q: How can you build an Eureka Server?
+- add spring-cloud-starter-eureka-server as a dependency
+- standalone or clustered configuration
+- @EnableEureka server annotation
+- numerous config options - e.g. can detect a network issue and won't automatically remove all instances due to a lack of heartbeats
+
+Q: How do you work with the Eureka Dashboard?
+- enabled by default
+- shows env info
+- lists registered services and instances
+- view service health
