@@ -92,3 +92,11 @@ Q: How do you work with the Eureka Dashboard?
 - shows env info
 - lists registered services and instances
 - view service health
+
+Q: How do you register a service with Eureka?
+- Eureka in the classpath leads to registration - springcloud.starter.eureka in classpath it will want to register itself using the Spring app name as the service instance ID
+- service name, host info sent during bootstrap
+- @EnableDiscoveryClient and @EnableEurekaClient
+- once a client is up it sends a heartbeat every 30 secs (configurable)
+- heartbeat can include health status
+- http or https support ; basic auth etc.
