@@ -2,15 +2,15 @@ package demo.tollratesservice;
 
 import java.math.BigDecimal;
 
-public class TollRates {
+public class TollRate {
 
     private int stationId;
     private BigDecimal currentRate;
     private String timestamp;
 
-    public TollRates() {}
+    public TollRate() {}
 
-    public TollRates(int stationId, BigDecimal currentRate, String timestamp) {
+    public TollRate(int stationId, BigDecimal currentRate, String timestamp) {
         this.stationId = stationId;
         this.currentRate = currentRate;
         this.timestamp = timestamp;

@@ -100,3 +100,12 @@ Q: How do you register a service with Eureka?
 - once a client is up it sends a heartbeat every 30 secs (configurable)
 - heartbeat can include health status
 - http or https support ; basic auth etc.
+
+Q: How do you discover a service with Eureka?
+- @EnableDiscoveryClient and @EnableEurekaClient
+- client works with local cache - gets the Eureka register at startup and only gets the delta from then on
+- cache refreshed, reconciled regularly
+- manually load balance (if you want to pull from the Discovery client or Eureka client), or use Ribbon (decorate rest template bean with a load balanced annotation - it will autowire and add some interceptors to replace the service ID with the URL)
+- can prefer talking to registry in the closest Zone
+- may take multiple heartbeats to discover new services - eventually consistent model - a new service is not instantly pulled by all clients and could take a few heartbeats for the metadata to get from the server to the client cache and then used by a local load balanced rest template
+  - customizable - e.g. shorter renewal interval
