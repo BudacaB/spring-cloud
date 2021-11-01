@@ -109,3 +109,26 @@ Q: How do you discover a service with Eureka?
 - can prefer talking to registry in the closest Zone
 - may take multiple heartbeats to discover new services - eventually consistent model - a new service is not instantly pulled by all clients and could take a few heartbeats for the metadata to get from the server to the client cache and then used by a local load balanced rest template
   - customizable - e.g. shorter renewal interval
+
+Q: How do you configure service health information?
+- heartbeat doesn't convey health - just availability
+- possible to include health information with a config chance that will pull from the actuator
+  - can extend and create own health check - maybe to also remove from registry temporarily
+
+Q: What is high availability architecture for Eureka?
+- built-in 'self preservation' model - the serve might stop expiring instances if it detects a network problem - e.g. services fail in mass
+- native support for peer to peer registry application
+  - Eureka doesn't use a DB, it has in-memory cache, it's not necessarily consistent between clusters but it's available and partition tolerant
+  - with a cluster of Eureka servers we can just point their service URLs at eachother
+  - if there's a network fail the server can figure that out and goes into a self preservation mode and will eventually correct and re-sync
+- use DNS in front of Eureka cluster
+- recommended to have one Eureka cluster in each Zone
+
+Q: What are some advanced configuration options for Eureka?
+- dozens and dozens of configuration flags
+- set cache refresh intervals
+- set timeouts
+- set connection limits
+- set service metadataMap
+- override default service, health endpoints
+- define replication limits, timeout, retries
