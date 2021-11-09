@@ -132,3 +132,44 @@ Q: What are some advanced configuration options for Eureka?
 - set service metadataMap
 - override default service, health endpoints
 - define replication limits, timeout, retries
+
+### Protecting Systems with Circuit Breakers
+
+Q: What is the role of Circuit Breakers in Microservices?
+- wikipedia: circuit breakers protect an electrical circuit from damage
+- microservices: watch for service faults in real-time
+- circuit closes when successful request processed
+- prevents cascading failures
+
+Q: What are some problems with the Status Quo?
+- major dependence on server to be resilient
+- load balancers are network calls too
+- hard to detect and recover via automation
+- solutions can be intrusive to code base or add significant overhead
+- resilience engineering often not part of service logic or behavior
+
+Q: What is Spring Cloud Hystrix?
+- library for enabling resilience in microservices
+
+Q: What does Hystrix do?
+- supported patterns include bulkhead (idea of a ship being split up into different parts and one part not flooding the others), fail fast, graceful degradation (e.g. fail silently with fallback response)
+- Hystrix wraps calls to external dependencies and monitors metrics in real time
+- it invokes failover method when encountering exceptions, timeouts, thread pool exhaustion, or too many previous errors
+- it periodically sends a request through to see if the service has recovered
+
+Q: How does Spring Cloud Hystrix work?
+- circuit breaker via annotations at class, operation level
+- Hystrix manages the thread pool, emits metrics - each call / client can be isolated on a separate thread
+  - the computational overhead and execution costs for queuing scheduling for threads - acceptable and gives more control
+- dashboard integrates with Eureka to look up services
+- dashboard pulls metrics from instances or services
+
+Q: How do you create a Hystrix-Protected Service
+- add 'spring-cloud-starter-hystrix' dependency to calling service
+- annotate class with @EnableCircuitBreaker annotation
+- set up @HystrixCommand and define fallback method - automatically wraps Spring Beans with that annotation or proxy connected with the circuit breaker
+- Hystrix Stream and Endpoints 
+  - state of circuit comes from /health endpoint of calling application
+  - circuit stream - http://[host]:[port]/health
+  - Hystrix metrics stream comes from actuator dependency
+  - metrics stream - http://[host]:[port]/hystrix.stream
