@@ -173,3 +173,12 @@ Q: How do you create a Hystrix-Protected Service
   - circuit stream - http://[host]:[port]/health
   - Hystrix metrics stream comes from actuator dependency
   - metrics stream - http://[host]:[port]/hystrix.stream
+
+Q: What's visible on the Hystrix Dashboard?
+- circuit breaker status
+- rolling 10 second counters
+- request rate
+- latency percentiles
+- number of hosts in the cluster
+- 2 mins of requests shows relative change
+- circle color and size indicate health and volume

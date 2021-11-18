@@ -1,5 +1,6 @@
 package fast.pass.console;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -22,6 +23,7 @@ public class FastPassController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @HystrixCommand(fallbackMethod = "getFastPassCustomerDetailsBackup")
     @RequestMapping(path = "/customerdetails", params = {"fastpassid"})
     public String getFastPassCustomerDetails(@RequestParam String fastpassid, Model m) {
 
@@ -31,6 +33,15 @@ public class FastPassController {
         FastPassCustomer c = restTemplate.getForObject("http://fastpass-service/fastpass?fastpassid=" + fastpassid, FastPassCustomer.class);
         System.out.println("retrieved customer details");
         m.addAttribute("customer", c);
+        return "console";
+    }
+
+    public String getFastPassCustomerDetailsBackup(@RequestParam String fastpassid, Model m) {
+        FastPassCustomer c = new FastPassCustomer();
+        c.setFastPassId(fastpassid);
+        System.out.println("Fallback operation called");
+        m.addAttribute("customer", c);
+
         return "console";
     }
 }
