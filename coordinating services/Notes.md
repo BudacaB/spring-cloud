@@ -182,3 +182,25 @@ Q: What's visible on the Hystrix Dashboard?
 - number of hosts in the cluster
 - 2 mins of requests shows relative change
 - circle color and size indicate health and volume
+
+Q: What are some advanced Hystrix configurations?
+- @HystrixProperty settings
+- set command properties
+- set thread pool properties
+- use annotations or property files
+
+Q: What does Turbine add to Hystrix?
+- combine metrics from multiple service instances
+- integrates with Eureka to pull instance info
+- Turbine Stream uses messaging to aggregate service metrics
+
+Q: How is Turbine Stream used?
+- server-side
+  - standalone Spring Boot app
+  - add spring-cloud-starter-turbine-stream
+  - add spring-cloud-starter-stream-*
+- client-side
+  - add spring-cloud-starter-hystrix-stream
+  - add spring-cloud-starter-stream-*
+- dashboard
+  - point to http://host:port of Turbine app
