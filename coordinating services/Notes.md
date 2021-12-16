@@ -204,3 +204,25 @@ Q: How is Turbine Stream used?
   - add spring-cloud-starter-stream-*
 - dashboard
   - point to http://host:port of Turbine app
+
+### Routing Microservices traffic
+
+Q: What is the role of Routing in Microservices?
+- rapid decision-making
+- developer-centric options for services
+- address cross-cutting concerns
+- offer data aggregation to limit chatiness
+
+Q: What are some problems with the status quo?
+- centralized load balancers, API gateways
+- routing tech focused on public services
+- API granularity often at odds with client demands
+- different performance, needs for different clients
+- tools that don't account for constant change
+
+#### Spring Cloud LoadBalancer - Client-side software load balancer
+
+Q: What are some of the key concepts?
+- simple client-side load balancer with two provided algorithms; round-robin and random
+- activated on code with class path dependencies and then @LoadBalanced annotation or reactive filter
+- extend or override using configuration classes
