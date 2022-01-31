@@ -42,6 +42,6 @@ public class FastPassController {
         System.out.println("Fallback operation called");
         m.addAttribute("customer", c);
 
-        return "console";
+        return "console";6
     }
 }

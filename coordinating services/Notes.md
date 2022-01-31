@@ -226,3 +226,15 @@ Q: What are some of the key concepts?
 - simple client-side load balancer with two provided algorithms; round-robin and random
 - activated on code with class path dependencies and then @LoadBalanced annotation or reactive filter
 - extend or override using configuration classes
+
+Q: How do you configure a LoadBalacer in your apps?
+- starter dependency is spring-cloud-starter-loadbalancer
+- configure with hard-coded list of servers or use a DiscoveryClient
+- chose RestTemplate or WebClient
+- supports some instance preference, sticky sessions, request transformations
+
+Q: How do LoadBalancer and Eureka work together?
+- Eureka simplifies service discovery
+- server list can come from Eureka
+- LoadBalancer works natively with DiscoveryClients
+- respects zone configuration defined in the Eureka Discovery Client
